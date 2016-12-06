@@ -1,251 +1,230 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Dec  1 13:48:07 2016
-
+Created on Tue Dec  6 13:58:20 2016
+hw1 revised
 @author: youjin
 """
 
-
-'''question 1 ''''
-#define a function parlindrome with a parameter: something
-#anytime you type parlindrome(something), this function will let you enter a
-#text so that you can test whether it is parlindrome or not.
-def parlindrome(something):
-    punctuations='''!()-[]{};:'"\,<>./?@#$%^&*_~ '''# Define what punctions constain
-    no_punct=""# define nonpunctions as no_punct with initial value 
-
-     #delete all punctutaions and connect them
-    for char in something:
-        if char not in punctuations:
-            no_punct = no_punct + char#delete all punctutaions and connect them
-       
-
-    def reverse(no_punct):#define a function to reverse the order of word or line
-        return no_punct[::-1]
-
-    def is_palindrome(no_punct):#define a function to distinguish parlindrome
-        return no_punct.lower() == reverse(no_punct.lower())#
-
-    if is_palindrome(no_punct):#output the word if is parlindrome
-        print("Yes, it is a palindrome")
-        print(something)
-    else:
-        print("No, it is not a palindrome")
-
-
-
-
-
-'''question 2 '''
-#define a function semordnilap
-#parameter file is outside file from your computer as txt format
-#anytime you wanna run semordnilap, if your txt is semordnilap, it will show 
-#"Yes, it is a semordnilap", and you appended words
-#otherwise nothing
-def semordnilap(file):
-    #define semordnilap functions
-    filepath = open(file).read()
-    #open a file
-    words = filepath.split()
-    #split the words in file
-    results = []
-    # set results initial value
-    for word_1 in words:
-        for word_2 in words:
-            if word_1 == word_2[::-1]:
-            #distinguish if word1=word2
-                results.append(word_1)
-   
-    print("Yes, it is a semordnilap")#print the final result
-    return results 
-          
+#question1
+"""
+Write a version of a palindrome recogniser that accepts a file name from the 
+user, reads each line, and --->prints the line<--- to the screen if it is a 
+palindrome.
+"""
+def is_palindrome(file):
+    '''
+    This function is a palindrome recogniser that accepts a file
+    name from the user, reads each line, and prints the line to the
+    screen if it is a palindrome.
+    
+    Parameter:
+    A file
+    
+    Returns:
+    True if palindrome
+    False if not palindrome
+    '''
+    string=open(file).read()#open a file
+    string=string.lower()#lower case of each letter
+    puncspace="`~!@#$%^&*()_-=+[]{}\|;:,<.>/? "
+    for k in string:
+        if k in puncspace:
+            string=string.replace(k,'')
+    for m in string.split('\n'):#m represents each line
+        if m==m[::-1]:#if the backward string equals to itself
+            print (True)
+        else:
+            print (False)
+  #e.g.        
+is_palindrome('name1.txt')#name1.txt is a local file          
             
-         
-
+#question2
+def semord(file):
+    '''
+    This function works as a semordnilap recogniser that accepts a file name 
+    (pointing to a list of words) from the user and finds and prints all pairs 
+    of words that are semordnilaps to the screen.
     
+    Parameter:
+    A file 
     
-'''question 3'''
-#define a function to look for the frequency of letter
-#parameter is filepath is from your computer as txt format 
-#anytime you run function, it gives the frequency of each letter shoing up in your file         
-def char_freq_table(filepath):
+    Returns
+    A list containing paired words
+    '''
+    list1=list(open(file).read().split())#convert a text file into a list
+    puncspace="`~!@#$%^&*()_-=+[]{}\|;:,<.>/?"
+    for k in list1:
+        k=k.lower()#lower case of every character
+        if k in puncspace:
+            list1=list1.replace(k,'')#no punctuations in string
+    new=[]#creat an empty list
+    for i in list1:
+        if i[::-1] in list1 and len(i)>1: #if the length of word is not 1 
+                                          #and the backward word in the list
+            new.append(i+' '+i[::-1])#word+space+backward word
+    return new
+#e.g.        
+is_palindrome('name1.txt')#name1.txt is a local file
+
+#question3
+def char_freq_table(file):
+    '''
+    This function accepts a file name from the user, builds a frequency listing of
+    the characters contained in the file, and prints a sorted and
+    nicely formatted character frequency table to the screen.
     
-    def displaycft(cft):
-    #define a function to displace the frequency and corresponding letter
-        for a, b in sorted(cft.items()):
-    # a as the letter and b as the letter's frequency 
-            print(a, b) 
-        #print the letter and frequency pair  
-    file = open(filepath).read()
-    #open a file as only read file
-    displaycft({letter:file.count(letter) for letter in file})
-    #count the letters' frequency in file and write them as letter and corresponding frequency
-    #put the "letter" into function displaycft
-    #Now, letter and corresponding frequency is set up and next is to sort them from a to z
-    return print(char_freq_table(filepath))#print the output
-
-
-
-
-'''question 4'''
-
-import os, time #import os and time
-#define a function to speak from modern English to ancient language 
-#parameter is string as a text accepted from what you enter
-#any time you type speak_icao(anything),it will let you enter text to speak
-def speak_icao(string):
-
-    punctuations='''!()-[]{};:'"\,<>./?@#$%^&*_~ '''#set punctions 
+    Parameter:
+    A file
     
-    d = {'a':'alfa', 'b':'bravo', 'c':'charlie', 'd':'delta', 'e':'echo', 
-	 'f':'foxtrot', 'g':'golf', 'h':'hotel', 'i':'india', 'j':'juliett', 
-	 'k':'kilo', 'l':'lima', 'm':'mike', 'n':'november', 'o':'oscar', 
-	 'p':'papa', 'q':'quebec', 'r':'romeo', 's':'sierra', 't':'tango', 
-	 'u':'uniform', 'v':'victor', 'w':'whiskey', 'x':'x-ray', 'y':'yankee', 
-	 'z':'zulu'}
-  #set ancient list containing original letter and corresponding pronounciation
-    words = string.split()
-    #split the words in the str to save into "words"
-    for word in words:
-        for char in word:
-            if char not in punctuations:
-            #skip the punctions by determining if it is punctuations
-               os.system('say ' + d[char.lower()])
-               #transfer every letter into lowercased
-               #pronounce the corresponding letter
-               time.sleep(0.01)#set the time interval between each letter 
-               time.sleep(0.1)#set the time interval between each word
+    Returns:
+    Dictionary(Table) showing frequency of characters
+    '''
+    string=open(file).read()#open a file and read lines
+    dic= {'a':0,'b':0,'c':0,'d':0,'e':0,'f':0,'g':0,'h':0,'i':0,'j':0,
+          'k':0,'l':0,'m':0,'n':0,'o':0,'p':0,'q':0,'r':0,'s':0,'t':0,
+          'u':0,'v':0,'w':0,'x':0,'y':0,'z':0}#formated dictionary
+    string=string.lower()#lower case of each letter
+    string=string.replace('\n','')
+    for i in string:
+        if i in dic:
+            dic[i]+=1#check frequency
+    import operator
+    sorted_dic = sorted(dic.items(), key=operator.itemgetter(0))#convert into a
+                                                                #list and sort
+    return sorted_dic
+#e.g.    
+char_freq_table('name1.txt')#'name1.txt' is a local file     
 
+#question4
+def speak_ICAO(string,ICAOpause=1,wordpause=3):
+    '''
+    This function translate string into ICAO words and speak the out.
+    Apart from the text to be spoken, the procedure also needs to accept two 
+    additional parameters: a float indicating the length of the pause between 
+    each spoken ICAO word, and a float indicating the length of the pause 
+    between each word spoken.
     
-
-
-
-
-
-
-
-'''question 5'''
-#Construct a dictionary that saves each word of text as its keys, and the counts of the words as its values.
-#Construct a list that returns a word which occurs only once, named hapax
-#parameter is file_name accepted from your computer.Anytime you a file name in 
-#hapax function, it will give you a result.
-def hapax(file_name):
+    Parameter:
+    A string
     
+    Returns:
+    Speak ICAO words
+    '''
+    import os
+    import time
+    ICAO = {'a':'alfa', 'b':'bravo', 'c':'charlie', 'd':'delta', 'e':'echo', 
+ 	'f':'foxtrot', 'g':'golf', 'h':'hotel', 'i':'india', 'j':'juliett', 
+ 	'k':'kilo', 'l':'lima', 'm':'mike', 'n':'november', 'o':'oscar', 
+ 	'p':'papa', 'q':'quebec', 'r':'romeo', 's':'sierra', 't':'tango', 
+ 	'u':'uniform', 'v':'victor', 'w':'whiskey', 'x':'x-ray', 'y':'yankee', 
+ 	'z':'zulu'} # define dictionary dic
+    for k in string.split():#split a string into words
+        for i in k:#i represents each character
+            if i not in "`~!@#$%^&*()_-=+[]{}\|;:,<.>/?0123456789": #only letter
+                os.system('say '+ICAO[i.lower()])#speak
+                time.sleep(ICAOpause)#pasue between ICAO words
+        time.sleep(wordpause)#pause between words
+#e.g.
+speak_ICAO('When I met your mother',1,3)
+
+#question5
+def hapax(file):
+    '''
+    Define a function that gives the file name of a text will return all its hapaxes.
+    Capitalization and punctuations are ignored.
     
-    count_dict = {}
-    hapax_list = []
+    Parameter:
+    A file
     
-    f = open(file_name,'r')#open a file as read file
-    text = f.read()#give the file as read to text    
+    Returns:
+    A list containing all hapaxes
+    '''
+    string=open(file).read()#read each line in the file
+    string=string.lower()#lower case of each letter
+    puncspace="`~!@#$%^&*()_-=+[]{}\|;:,<.>/?"
+    for k in string:
+        if k in puncspace:
+            string=string.replace(k,'')#no punctuations in string
+    hapaxes=[]#empty list
+    for i in string.split():
+        if string.count(i)==1:#if the word shows up only once
+            hapaxes.append(i)#add it into the list
+    return hapaxes
+#e.g.
+hapax('name1.txt') #'name1.txt' is a local file    
+
+#question6
+def numberfile(file):
+    '''
+    This function gives a text file will create a new text file in
+    which all the lines from the original file are numbered from 1 to n.
     
-    # Each word in the text is splitted by blank space
-    for word in text.split(' '):#split the words from text
-       
-        word = word.lower() # make all words lowercased
-       
-        if word in count_dict:# Check the occurance of each word
-           count_dict[word] = count_dict[word] + 1
-        else:
-            count_dict[word] = 1
-     
+    Parameter:
+    A file
     
-    for word,count in count_dict.items():
-        if count == 1:
-            hapax_list.append(word)
-     # 'word' as dictionary keys and 'count' as dictionary values
-    return hapax_list
-        
+    Returns:
+    A new file with numbered lines
+    '''
+    file1=open(file).readlines()#file1 is a list
+    file2=open('New.txt','w')#new empty file
+    for i in range(len(file1)):
+        file2.write('line'+str(i+1)+': '+file1[i])#add 'line#: ' to the 
+    #begining of each line, put them together into line2
+    file2.close()#save and close
+#e.g.
+numberfile('name1.txt')#'name1.txt' is a local text file
 
+#question7
+def ave(file):
+    '''
+    This function calculates the average word length of a text
+    stored in a file
+    
+    Parameter:
+    A file
+    
+    Returns:
+    A number(the sum of all the lengths of the word tokens in
+    the text, divided by the number of word tokens)
+    '''
+    string=open(file).read()#open and read file
+    puncspace="`~!@#$%^&*()_-=+[]{}\|;:,<.>/? "
+    string=string.replace('\n',' ')# no'\n' in string
+    wordnumber=len(string.split())#caculate the number of words
+    for k in string:
+        if k in puncspace:
+            string=string.replace(k,'')#no spaces and punctuations in string
+    charnumber=len(string)#caculate the number of characters
+    return charnumber/wordnumber
+#e.g.
+ave('name1.txt')#'name1.txt' is a local text file
 
-
-
-
-'''question 6'''
-#define a function 
-def text_lines(fileinput, fileoutput):
-#define a function to number the line in file
-    in_file = open(fileinput,'r')
-    #read fileinput to save as in_file
-    out_file = open(fileoutput,'w')#write fileoutput to save as out_file
-    line_number = 1 #set intial value for line_number
-    for line in in_file:
-    #write in_file where line number goes first and line goes second
-        out_file.write('{}: {}'.format(line_number, line))
-        line_number += 1#increase linenumber by 1 each time
-    return line_number
-
-
-
-
-
-
-'''question 7'''
-
-# Define what punctuaions constain
-
-def ave_word_len(filepath):
-    punctuations='''!()-[]{};:'"\,<>./?@#$%^&*_~ '''
-#define a function for average length of word in a text
-    file=open(filepath).read()#open a file as read
-    no_punct=""
-    print(str(file))#transfer file to a string and present it 
-    words=file.split()#transfer file to a splitted format as a list
-    for char in str(file):
-        if char not in punctuations:
-            no_punct = no_punct + char
-            #get a string without any punctuations
-    print(len(words))   
-    print(len(no_punct))    
-    print(len(no_punct)/len(words))  
-    #get the total length of total words divided by the number of word in text.      
-  
-
-
-
-'''question 8 Write a program able to play the "Guess the number"-game, where
-the number to be guessed is randomly chosen between 1 and 20.
+#question8
 '''
- 
-
-# define a function as funcguess which can let you guess a number several times 
-#parameter: real which is an integer 
-#when use this function, just type in funcguess(anynumer)
-def funcguess(real):
-    
-    name = input('Hello! What is your name?')
-# tell user what to do
-    print('Well,',name,' I am thinking of a number between 1 and 20.')
-# real number
-    
-    real=18
-#Stuart- This should be a random number. Look at the random library.
-
-# give the time user guessed an initial value
-    time = 1
-# use while loop to let user have a guess
-    while True:
-    # input user's guess
-        guess = int(input('Take a guess,'))
-    # if the guess number is high, give a clue
-        if guess > real:
-            print('Your guess is too high.')
-        # guess time increase
-            time+=1
-    # if the guess number is low, give a clue
-        elif guess < real:
-            print('Your guess is too low.')
-        # guess time increase
-            time+=1
-        else:
-        # if the guess is correct, print the guess times
-            print('Good job, ',name,'! You guessed my number in',time,'guesses!')
-            break
+This is a program able to play the "Guess the number" game.
+Parameter:
+Name and a number
+Returns:
+Strings and how many times taken
+'''
+name=input('What is your name? ')#input name
+chance=1
+import random
+b=random.randint(0,20)
+while True:
+    number=int(input(name+', I am thinking of a number between 1 and 20. Take a guess. '))#input a number
+    if number==18:
+        print('Good job, {}! You guessed my number in {} guesses!'.format(name,chance))#
+        break#stop the program when guess the number
+    elif number<18:
+        print('Your guess is too low. Take a guess.')
+        chance+=1#times taken+1
+    else:
+        print('Your guess is too high. Take a guess.')
+        chance+=1#times taken+1
 
 
-
-
-
-'''question 9'''  
+#question9
 #define a function as funcshuffle which can shuffle the letters of words by
 #permutation without changing the number of letters of words 
 #parameter:x which is given as shuffled word by changing the order of combination
@@ -277,88 +256,103 @@ def funcshuffle(x):
  #use while loop to distinguish if the wordinput equals the picked word before it is rearranged 
  #keep inputing the word you guess until your answer is the picked word
     print("your guess is correct")
-
-
-
-
-
-'''question 10'''
-#define a function as wordguess which determine whether the owrd you guess is 
-#correct or not 
-#parameter:guess which is initially valued as null
-def wordguess(guess):
-    word = list("tiger")
-#give a list of words
-    print("import lingo")
-    guess = []
- #meet the first requirement that correct letters placed in correct positions
-#by using bracket to present the clue
-
-    while True:#while loop to judge if the word guess is correct
-        guess = list(input("Please enter your guess: "))#make the inputed word into a list
-        if guess == word:#determine if the guessed word is equal to the existing word
-            print("You guessed the right word!")
-            break
-        else:
-            cluelst = guess# give the guss value to clu1st
-            for i in range(0, len(word)):
-        #for loop to make i go from 0 to the length of word 
-                if guess[i] == word[i]:
-            #determine if the ith letter you typed is equal the ith letter in existing word
-            
-                    cluelst[i] = "[" + guess[i] + "]" 
-                #if so, put the guessed letter in the ith position of existing word
-            for i in range(0, len(word)):
-            #for loop again 
-                for j in range(0, len(word)):
-                # for loop makes j go from 0 to length of the word
-                    if guess[i] == word[j]:
-                    #judge if guessed ith letter is equal to jth letter of word
-                        cluelst[i] = "(" + guess[i] + ")"
-                    # give "(" + guess[i] + ")" to ith cluelst
-                        clue = "".join(cluelst)#connect the letters from cluelst
-                        print("Clue: " + clue)
-
-
-
-'''question 11'''
-
-import re
-
-def sentence_splitter(file_name):
-#define a function with one parameter 
-#parameter is a filepath that you wanna run on python
-    with open(file_name, 'r') as f:
-    #open file as read and give the value of f to file_content
-        file_content = f.read()
-
-	# remove '\n' and use space instead in file_content as read
-    sentences = re.sub(r'\n', '', file_content)
-
-	#remove (?<!Mr)(?<!Mrs)(?<!Dr)\.\s([A-Z])', r'.\n\1' from sentences as read
-     #add a newline after period when that period is not followed
-	# by 'Mr', 'Mrs' or 'Dr' and is followed by a space and an
-	# uppercase letter
-    sentences = re.sub(r'(?<!Mr)(?<!Mrs)(?<!Dr)\.\s([A-Z])', r'.\n\1', sentences)
     
+#question10
+def lingo(answer):
+    '''
+    lingo game: The object of the game is to find this word by guessing, and in
+    return receive two kinds of clues: 1) the characters that are fully
+    correct, with respect to identity as well as to position, and 2) the
+    characters that are indeed present in the word, but which are
+    placed in the wrong position. Write a program with which one can
+    play Lingo. Use square brackets to mark characters correct in the
+    sense of 1), and ordinary parentheses to mark characters correct in
+    the sense of 2)
+    
+    Parameter:
+    a word as answer
+    
+    Returns:
+    word after proceed
+    '''
+    while True:
+        new=''
+        guess=input('take a guess(only 5 characters!): ')#guess a word
+        for i in range(len(guess)):
+            if guess[i]==answer[i]:#if identity and and position are both correct
+                new+='['+guess[i]+']'#add '[]' to the character
+            elif guess[i] in answer:#if only identity is correct
+                new+='('+guess[i]+')'#add '()' to the character
+            else:
+                new+=guess[i]#if neither is correct, just add character
+        if guess==answer:
+            print('Clue: '+new)
+            break#stop the program
+        else:
+            print('Clue: '+new)
+#e.g.
+lingo('catch')
 
- 	#remove '!\s',add new line after ! from sentences as read
-    sentences = re.sub(r'!\s', '!\n', sentences)
+#question11
+punc='?!'
+lower='abcdefghijklmnopqrstuvwxyz'
+cap='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+num='0123456789'
+title=['Mr','Mrs','Dr']
+punctuation="`~!@#$%^&*()_-=+[]{}\|;:,<.>/?"
+def splitter(file):
+    '''
+    This function opens a txt file and works as a sentence splitter to
+    write its sentences with each sentences on a separate line.
+    Sentence boundaries occur at one of "." (periods), "?" or "!", except that
+    a. Periods followed by whitespace followed by a lower case letter
+    are not sentence boundaries.
+    b. Periods followed by a digit with no intervening whitespace are
+    not sentence boundaries.
+    c. Periods followed by whitespace and then an upper case letter,
+    but preceded by any of a short list of titles are not sentence
+    boundaries. Sample titles include Mr., Mrs., Dr., and so on.
+    d. Periods internal to a sequence of letters with no adjacent
+    whitespace are not sentence boundaries (for example,
+    www.aptex.com, or e.g).
+    e. Periods followed by certain kinds of punctuation (notably comma
+    and more periods) are probably not sentence boundaries.   
+    
+    Parameter:
+    A file
+    **** This should be:
+    **** A text file. The input is overwritten with the sentances split into 
+    **** separate paragraphs (one sentance per paragraph)
+    
+    Returns:
+    The modified file
+    **** This is not true. Above, under Parameter: you need to state that the 
+    **** input file is overwritten by the function. 
+    '''
+    string=open(file,'r').read()#open file for read
+    for i in range(1,len(string)-2):
+        if string[i]=='.':#period
+            if string[i+1]==' 'and string[i+2] in lower:
+                string=string #Periods followed by whitespace followed by a lower case letter are not sentence boundaries.
+            elif string[i+1] in num:
+                string=string #Periods followed by a digit with no intervening whitespace are not sentence boundaries.
+            elif (string[i-2:i] or string[i-3:i]) in title and string[i+1]==' ' and string[i+2] in cap:
+                string=string #Periods followed by whitespace and then an upper case letter, but preceded by any of a short list of titles are not sentence boundaries
+            elif string[i-1]!=' ' and string[i+1]!=' ':
+                string=string #Periods internal to a sequence of letters with no adjacent whitespace are not sentence boundaries 
+            elif string[i+1] in punctuation:
+                string=string #Periods followed by certain kinds of punctuation
+            else:
+                string=string[:i+1]+'\n'+string[i+2:] #else, add '\n' after period (new line)
+        elif string[i] in punc:
+            string=string[:i+1]+'\n'+string[i+2:]#for sentences end with '?' and '!', seperate new line
+    file1=open(file,'w')#open for write, warning: this function will overwrite your file
+    file1.write(string)#write string into it
+    file1.close()#save and close
+#e.g
+splitter('name1.txt') #'name1.txt' is a local file
 
- 	# remove ''\?\s', add newline after ? from sentences as read 
-    sentences = re.sub(r'\?\s', '?\n', sentences)
-
-    print(sentences)
-
-#test
-sentence_splitter('untitled4.txt')
-
-
-
-
-
-
-'''question 12'''
+#question12
 def  anagram(filepath):#define a function anagram
 #parameter is a filepath that you wanna test on python
 #everytime you type in anagram with a filepath, it show you the test result on 
@@ -374,15 +368,8 @@ def  anagram(filepath):#define a function anagram
                  #distinguish if they have the same number of letter
                      print (word, word_similar)
                      #print outcomes
-      
- 
-    
-    
-    
-
-'''question 13'''
-
-
+                     
+#question13
 def brackets(n):#define a function with one parameter 
 #parameter n works as length of what needs to be tested 
     i, result, brackets = 0, '', '[]'
@@ -439,67 +426,7 @@ def brackets(n):#define a function with one parameter
     print(brackets(int(input('Enter a number between 1 and 3: '))))
 
 
-
-'''question 13 pokeman'''
-
-
-def poke_names(file):
-    #define a function that can list all possible outcomes
-#parameter is a file accepetd from your computer 
-    import re #import regular expression 
-	# save all the names from the file as read
-    with open(file, 'r') as f:
-        names = re.findall(r'\w+', f.read())
-
-	# set two variable as empty to start 
-    longest_series, current_series = [], []
-
-	# return to the next word with last letter as initial 
-	# of the previous word
-    def name_starts_with(lastletter, names):
-        for index, name in enumerate(names):
-            if name.startswith(lastletter):
-                return index
-        return False
-
-	
-	# for loop to add current to current series 
-    for name in names:
-        current_name = name
-        current_series.append(current_name) # Add the first name to the series
-
-        namelist = names[:] # save all names in namelist
-        namelist.pop(namelist.index(current_name)) # Remove the 1st name 
-
-        index = name_starts_with(current_name[-1], namelist)
-        # get the last element of current_name
-
-		#determine there is the next word with last letter as initial 
-	# of the previous word
-        while index is not False:
-            current_name = namelist[index] # Get this name
-            current_series.append(current_name) # Add it to the series
-            namelist.pop(index) # Remove it from the list
-            index = name_starts_with(current_name[-1], namelist) 
-            # Get the index of the next name
-
-		# determine the length of current series and longest series 
-            if len(current_series) > len(longest_series):
-                longest_series = current_series
-
-		# make current series empty
-                current_series = []
-            else:
-                break
-	# Print the longest series
-        print(longest_series)
-
-
-#test
-poke_names('untitled6.txt')
-
-
-'''question 14'''
+#question14
 def wordfunc(file):
     #define a function that can combine two words 
     #parameter is a file which be found in your computer.
@@ -518,5 +445,6 @@ def wordfunc(file):
             word1 = wordfirst.strip()#strip the whitespace off wordfirst
             word2 = wordsecond.strip()#strip the whitespace off wordsecond
             print(word1+" and "+word2)
+
 
 
